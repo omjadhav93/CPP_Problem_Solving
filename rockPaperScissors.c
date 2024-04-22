@@ -59,7 +59,7 @@ int eachRound(){
 
 int main(){
     int p1 = 0,p2 = 0;
-    printf("\t WELCOME TO ROCK,PAPER,SCISSOR \n How to play: \n You have to choice one of the following options using there respective number.\n Rock :- 0 \n Paper :- 1 \n Scissor :- 2 \n Then Computer will choice random , If you wins you will get 1 point  and there will eachRounds.\n\n");
+    printf("\t WELCOME TO ROCK,PAPER,SCISSOR \n How to play: \n You have to choice one of the following options using there respective number.\n Rock :- 0 \n Paper :- 1 \n Scissor :- 2 \n Then Computer will choice random , If you wins you will get 1 point  and there will 3 Rounds.\n\n");
 
     for (int i = 1; i <= 3; i++)
     {
@@ -73,7 +73,7 @@ int main(){
     {
         printf("!!!CONGRATS!!!\n   YOU WON   \n   YOU WON   \n   YOU WON   \n\n");
     }else{
-        printf(" Your Luck Not With You.\n BETTER LUCK NEXT TIME!");
+        printf(" Your Luck IS Not With You!\n BETTER LUCK NEXT TIME! \n\n");
     }
     
     printf(" END!\n\n");
