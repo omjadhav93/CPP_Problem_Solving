@@ -1,7 +1,8 @@
 /* W.A.P to sort the given integers and perform following operations ,
 	1. Find the product of every two consecutive odd position elements,
 	2. Find the sum of every two consecutive even position elements. 
- */
+*/
+
 #include <stdio.h>
 
 void insertionSort(int *arr,int n){
@@ -35,10 +36,10 @@ int main(){
     insertionSort(arr,n);
     
     printf("Required Output: ");
-    for(i = 3; i < n; i+=2){
+    for(i = 3; i <= n; i+=2){
     	printf("%d ",arr[i-1]*arr[i-3]);
 	}
-	for(i = 2; i < n; i+=2){
+	for(i = 4; i <= n; i+=2){
     	printf("%d ",arr[i-1]+arr[i-3]);
 	}
 	
