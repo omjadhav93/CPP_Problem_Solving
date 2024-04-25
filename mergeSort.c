@@ -59,9 +59,10 @@ int main(){
         scanf("%d",&arr[i]);
     }
 
-    mergeSort(arr,0,8);
+    mergeSort(arr,0,n-1);
 
-    for (int i = 0; i < 9; i++)
+	printf("Sorted Array : ");
+    for (int i = 0; i < n; i++)
     {
         printf("%d ",arr[i]);
     }
