@@ -35,13 +35,15 @@ int main(){
     
     insertionSort(arr,n);
     
-    printf("Required Output: ");
+    printf("Required Output: \n");
     for(i = 3; i <= n; i+=2){
     	printf("%d ",arr[i-1]*arr[i-3]);
 	}
+    printf("\n");
 	for(i = 4; i <= n; i+=2){
     	printf("%d ",arr[i-1]+arr[i-3]);
 	}
+    printf("\n");
 	
 	return 0;
 }
