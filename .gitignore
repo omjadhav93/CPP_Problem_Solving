@@ -1,0 +1,6 @@
+# Ignore common C/C++ object files and executables
+*.o
+*.obj
+*.exe
+*.out
+*.app

@@ -5,21 +5,33 @@ typedef struct node
 {
     int data;
     struct node *next;
+    struct node *prev;
 } sn;
 
-sn *insertionAtBegining(sn *head, int n)
+sn *createNode(sn *head, int n)
 {
-    sn *newNode = malloc(sizeof(sn));
+    sn *newNode = (sn *)malloc(sizeof(sn));
     newNode->data = n;
-    newNode->next = head;
+    newNode->next = NULL;
+    newNode->prev = NULL;
     return newNode;
 }
 
-sn *insertionAtEnd(sn *head, int data)
+sn *insertionAtBegining(sn *head, int n)
 {
-    sn *newNode = malloc(sizeof(sn));
-    newNode->data = data;
-    newNode->next = NULL;
+    sn *newNode = createNode(head, n);
+
+    newNode->next = head;
+
+    if (head != NULL)
+        head->prev = newNode;
+
+    return newNode;
+}
+
+sn *insertionAtEnd(sn *head, int n)
+{
+    sn *newNode = createNode(head, n);
 
     if (head == NULL)
     {
@@ -32,18 +44,18 @@ sn *insertionAtEnd(sn *head, int data)
         temp = temp->next;
     }
     temp->next = newNode;
+    newNode->prev = temp;
 
     return head;
 }
 
 sn *insertAfterNode(sn *head, int data, int ref)
 {
-    sn *newNode = malloc(sizeof(sn));
-    newNode->data = data;
-    newNode->next = NULL;
+    sn *newNode = createNode(head, data);
 
-    if(head == NULL){
-        printf("%d is not there in code!\n",ref);
+    if (head == NULL)
+    {
+        printf("%d is not there in code!\n", ref);
         return head;
     }
 
@@ -61,6 +73,8 @@ sn *insertAfterNode(sn *head, int data, int ref)
     else
     {
         newNode->next = temp->next;
+        newNode->prev = temp;
+        temp->next->prev = newNode;
         temp->next = newNode;
         return head;
     }
@@ -68,23 +82,23 @@ sn *insertAfterNode(sn *head, int data, int ref)
 
 sn *insertBeforeNode(sn *head, int data, int ref)
 {
-    sn *newNode = malloc(sizeof(sn));
-    newNode->data = data;
-    newNode->next = NULL;
+    sn *newNode = createNode(head, data);
 
-    if(head == NULL){
-        printf("%d is not there in code!\n",ref);
+    if (head == NULL)
+    {
+        printf("%d is not there in code!\n", ref);
         return head;
     }
 
     if (head->data == ref)
     {
         newNode->next = head;
+        head->prev = newNode;
         return newNode;
     }
 
     sn *temp = head;
-    while (temp->next->data != ref)
+    while (temp != NULL && temp->next->data != ref)
     {
         temp = temp->next;
     }
@@ -97,6 +111,8 @@ sn *insertBeforeNode(sn *head, int data, int ref)
     else
     {
         newNode->next = temp->next;
+        newNode->prev = temp;
+        temp->next->prev = newNode;
         temp->next = newNode;
         return head;
     }
@@ -129,8 +145,9 @@ sn *insertAtPosition(sn *head, int data, int pos)
     else
     {
         newNode->next = temp->next;
+        newNode->prev = temp;
+        temp->next->prev = newNode;
         temp->next = newNode;
-
         return head;
     }
 }
@@ -185,6 +202,7 @@ sn *deleteAtBegining(sn *head)
     }
 
     sn *newHead = head->next;
+    newHead->prev = NULL;
     free(head);
     return newHead;
 }
@@ -213,6 +231,7 @@ sn *deleteAtEnd(sn *head)
     return head;
 }
 
+
 sn *deleteAfterNode(sn *head, int ref)
 {
     sn *temp = head;
@@ -225,6 +244,7 @@ sn *deleteAfterNode(sn *head, int ref)
     {
         sn *toDel = temp->next;
         temp->next = toDel->next;
+        toDel->next->prev = temp;
         free(toDel);
     }
 
@@ -245,6 +265,7 @@ sn *deleteBeforeNode(sn *head, int ref)
     {
         sn *toDel = head;
         head = toDel->next;
+        head->prev = NULL;
         free(toDel);
         return head;
     }
@@ -259,11 +280,13 @@ sn *deleteBeforeNode(sn *head, int ref)
     {
         sn *toDel = temp->next;
         temp->next = toDel->next;
+        toDel->next->prev = temp;
         free(toDel);
     }
 
     return head;
 }
+
 
 sn *deleteParticularNode(sn *head, int ref)
 {
@@ -275,6 +298,7 @@ sn *deleteParticularNode(sn *head, int ref)
     {
         sn *toDel = head;
         head = toDel->next;
+        head->prev = NULL;
         free(toDel);
         return head;
     }
@@ -289,15 +313,32 @@ sn *deleteParticularNode(sn *head, int ref)
     {
         sn *toDel = temp->next;
         temp->next = toDel->next;
+        toDel->next->prev = temp;
         free(toDel);
     }
 
     return head;
 }
 
+void printLinkedList(sn *head)
+{
+    if (head == NULL)
+    {
+        printf("Empty List.\n");
+        return;
+    }
+    while (head->next != NULL)
+    {
+        printf("%d -> ", head->data);
+        head = head->next;
+    }
+    printf("%d -> ", head->data); // Printing the last node.
+    printf("END\n");
+}
+
 sn *deleteAtPos(sn *head, int pos)
 {
-    if (pos == 1)
+    if (head != NULL && pos == 1)
     {
         sn *toDel = head;
         head = toDel->next;
@@ -317,6 +358,7 @@ sn *deleteAtPos(sn *head, int pos)
     {
         sn *toDel = temp->next;
         temp->next = toDel->next;
+        toDel->next->prev = temp;
         free(toDel);
         return head;
     }
@@ -325,22 +367,6 @@ sn *deleteAtPos(sn *head, int pos)
         printf("Invalid Position!\n");
         return head;
     }
-}
-
-void printLinkedList(sn *head)
-{
-    if (head == NULL)
-    {
-        printf("Empty List.\n");
-        return;
-    }
-    while (head->next != NULL)
-    {
-        printf("%d -> ", head->data);
-        head = head->next;
-    }
-    printf("%d -> ", head->data); // Printing the last node.
-    printf("END\n");
 }
 
 int main()
